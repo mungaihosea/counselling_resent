@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,9 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+env = environ.Env()
+env.read_env()
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'rd1*5o7fbuoy&ctq-c^s_+^1&w1cc4(0rfrxlghb*-8g3@l@g9'
+SECRET_KEY = "rd1*5o7fbuoy&ctq-c^s_+^1&w1cc4(0rfrxlghb*-8g3@l@g9"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -123,3 +127,12 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+
+# email configuration details
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_BACKEND = env('EMAIL_BACKEND')

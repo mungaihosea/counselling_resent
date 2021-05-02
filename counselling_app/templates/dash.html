@@ -3,8 +3,32 @@
 {% block content %}
 
 {% if request.user.is_superuser %}
-<!-- Button trigger modal -->
-  
+<!-- Modal -->
+<div class="modal fade" id="all-ap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create new appointment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          {% for ap in all_appointments %}
+            <li class="list-group-item">
+                student: {{ap.user}}<br>
+                On: {{ap.date}}<br>
+                subject: {{ap.subject}}<br>
+                councellor: {{ap.counsellor}}<br>
+                <a href="{% url 'cancel_appointment' ap.id %}" class="btn btn-danger btn-sm">cancel appointment</a>
+            </li>
+          {% endfor %}
+        </ul>        
+      </div>
+    </div>
+  </div>
+</div>
   <!-- Modal -->
   <div class="modal fade" id="create-ap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -50,26 +74,23 @@
 <div style="width: 100%; padding: 5px;">
     <h2>Welcome Admin {{request.user.username}}</h2>
     <button class="btn m-3 btn-lg btn-primary" data-toggle="modal" data-target="#create-ap">Create Appointment</button>
-    <button class="btn m-3 btn-lg btn-primary">View all appointments</button>
+    <button class="btn m-3 btn-lg btn-primary" data-toggle="modal" data-target="#all-ap">View all appointments</button>
 </div>
 {% else %}
 <div style="width: 100%; padding: 5px;">
-    <h2>Welcome {{request.user.username}} below are your appointments</h2>
+    <h2>Welcome {{request.user.username}} you have {{my_appointments.count}} appointment(s)</h2>
 
 </div>
 <ul class="list-group">
+  
+  {% for ap in my_appointments %}
     <li class="list-group-item">
         you will have an appointment<br>
-        On: 27/02/2021<br>
-        subject: Deprression<br>
-        councellor: Japheth<br>
+        On: {{ap.date}}<br>
+        subject: {{ap.subject}}<br>
+        councellor: {{ap.counsellor}}<br>
     </li>
-    <li class="list-group-item">
-        you will have an appointment<br>
-        On: 27/02/2021<br>
-        subject: Deprression<br>
-        councellor: Japheth<br>
-    </li>
+  {% endfor %}
 </ul>
 
 {% endif %}

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register, about, dash, login, logout, create_appointment
+from .views import register, about, dash, login, logout, create_appointment, cancel_appointment
 
 # default path = /
 urlpatterns = [
@@ -8,5 +8,6 @@ urlpatterns = [
     path('register/', register, name="register"),
     path('about/', about, name="about"),
     path('logout/', logout, name="logout"),
-    path('create_appointment/', create_appointment, name="create_appointment")
+    path('create_appointment/', create_appointment, name="create_appointment"),
+    path('cancel_appointment/<slug:id>/', cancel_appointment, name="cancel_appointment")
 ]

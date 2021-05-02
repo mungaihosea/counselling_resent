@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import login as login_user, logout as logout_user
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from .models import Appointment
 
 def login(request):
@@ -27,8 +27,13 @@ def dash(request):
     if request.user.is_authenticated == False:
         return redirect('login')
     students = User.objects.filter(is_superuser = False)
-    
-    return render(request, 'dash.html', {"students":students})
+    my_appointments = Appointment.objects.filter(user = request.user)
+    context = {
+        "students":students,
+        "my_appointments":my_appointments,
+        "all_appointments":Appointment.objects.all(),
+     }
+    return render(request, 'dash.html', context)
 
 def register(request):
     error = None
@@ -97,3 +102,8 @@ def update_profile(request):
 def logout(request):
     logout_user(request)
     return redirect('login')
+
+def cancel_appointment(request, id):
+    ap = get_object_or_404(Appointment, id = id)
+    ap.delete()
+    return redirect('dash')
